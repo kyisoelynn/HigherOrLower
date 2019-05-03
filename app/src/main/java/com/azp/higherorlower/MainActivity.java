@@ -19,7 +19,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Random random = new Random();
-        int randomNumber = random.nextInt(20) + 1;
+        randomNumber = random.nextInt(20) + 1;
+        makeToast(Integer.toString(randomNumber));
     }
 
     public void guess(View view) {
@@ -27,20 +28,34 @@ public class MainActivity extends AppCompatActivity {
 
         int guessInt = Integer.parseInt(guessEditText.getText().toString());
 
-        if (guessInt > randomNumber) {
-            Toast.makeText(MainActivity.this, "Lower!", Toast.LENGTH_SHORT).show();
-        }else if (guessInt < randomNumber) {
-            Toast.makeText(MainActivity.this, "Higher!",Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(MainActivity.this, "That's right!", Toast.LENGTH_SHORT).show();
-
-            Random random = new Random();
-
-            randomNumber = random.nextInt(20)+1;
-        }
+        checkResult(guessInt);
 
         //ToDo
         //to create the method called makeToast with one parameter
 
+
+    }
+
+    public void checkResult(int inputNumber) {
+        int testResult = Integer.compare(inputNumber, randomNumber);
+
+        switch (testResult) {
+            case -1:
+                makeToast("Lower");
+                break;
+            case 0:
+                makeToast("That's right!");
+                break;
+            case 1:
+                makeToast("Higher");
+                break;
+            default:
+                makeToast("Please input Number only");
+                break;
+        }
+    }
+
+    public void makeToast(String displayText) {
+        Toast.makeText(MainActivity.this, displayText, Toast.LENGTH_SHORT).show();
     }
 }
